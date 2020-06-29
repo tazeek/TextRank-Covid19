@@ -14,5 +14,15 @@ of other movies, for better or worse.
 '''
 
 doc = nlp(content)
-for sents in doc.sents:
-    print(sents.text)
+
+candidate_pos = ['NOUN', 'PROPN', 'VERB']
+sentences = []
+
+for sent in doc.sents:
+	selected_words = []
+	for token in sent:
+		if token.pos_ in candidate_pos and token.is_stop is False:
+			selected_words.append(token)
+	sentences.append(selected_words)
+
+print(sentences)
