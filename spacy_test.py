@@ -1,5 +1,4 @@
-import spacy
-nlp = spacy.load('en_core_web_sm')
+from TextRank4Keyword import TextRank4Keyword
 
 content = '''
 The Wandering Earth, described as China’s first big-budget science fiction thriller, 
@@ -13,16 +12,6 @@ fiction fans are going to see a lot on the screen that reminds them
 of other movies, for better or worse.
 '''
 
-doc = nlp(content)
-
-candidate_pos = ['NOUN', 'PROPN', 'VERB']
-sentences = []
-
-for sent in doc.sents:
-	selected_words = []
-	for token in sent:
-		if token.pos_ in candidate_pos and token.is_stop is False:
-			selected_words.append(token)
-	sentences.append(selected_words)
-
-print(sentences)
+tr4w = TextRank4Keyword()
+tr4w.analyze(content, candidate_pos = ['NOUN', 'PROPN'], window_size=4, lower=False)
+tr4w.get_keywords(10)
