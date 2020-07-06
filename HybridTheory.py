@@ -36,17 +36,15 @@ class HybridTheory():
             spacy_sentence = nlp(sentence)
 
             for token in spacy_sentence:
-                print(token)
+
                 # Store words only with cadidate POS tag
-                #if token.pos_ in candidate_pos and token.is_stop is False:
+                if token.pos_ in candidate_pos and token.is_stop is False:
+                    if lower is True:
+                        selected_words.append(token.text.lower())
+                    else:
+                        selected_words.append(token.text)
 
-                #    if lower is True:
-                #        selected_words.append(token.text.lower())
-                #    else:
-                #        selected_words.append(token.text)
-
-            quit()
-            sentences.append(selected_words)
+            segmented_sentences.append(selected_words)
 
         return segmented_sentences
         
