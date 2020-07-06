@@ -1,11 +1,12 @@
 from collections import OrderedDict
 import numpy as np
 import spacy
+import nltk
 from spacy.lang.en.stop_words import STOP_WORDS
 
 nlp = spacy.load('en_core_web_sm')
 
-class TextRank4Keyword():
+class HybridTheory():
     """Extract keywords from text"""
     
     def __init__(self):
@@ -21,20 +22,33 @@ class TextRank4Keyword():
             lexeme = nlp.vocab[word]
             lexeme.is_stop = True
     
-    def sentence_segment(self, doc, candidate_pos, lower):
+    def sentence_segment(self, abstract, candidate_pos, lower):
         """Store those words only in cadidate_pos"""
-        sentences = []
-        for sent in doc.sents:
+
+        segmented_sentences = []
+
+        sentences = nltk.sent_tokenize(abstract)
+
+        for sentence in sentences:
+
             selected_words = []
-            for token in sent:
+
+            spacy_sentence = nlp(sentence)
+
+            for token in spacy_sentence:
+                print(token)
                 # Store words only with cadidate POS tag
-                if token.pos_ in candidate_pos and token.is_stop is False:
-                    if lower is True:
-                        selected_words.append(token.text.lower())
-                    else:
-                        selected_words.append(token.text)
+                #if token.pos_ in candidate_pos and token.is_stop is False:
+
+                #    if lower is True:
+                #        selected_words.append(token.text.lower())
+                #    else:
+                #        selected_words.append(token.text)
+
+            quit()
             sentences.append(selected_words)
-        return sentences
+
+        return segmented_sentences
         
     def get_vocab(self, sentences):
         """Get all tokens"""
@@ -91,7 +105,7 @@ class TextRank4Keyword():
                 break
         
         
-    def analyze(self, text, 
+    def analyze(self, abstract, 
                 candidate_pos=['NOUN', 'PROPN'], 
                 window_size=4, lower=False, stopwords=list()):
         """Main function to analyze text"""
@@ -99,11 +113,8 @@ class TextRank4Keyword():
         # Set stop words
         self.set_stopwords(stopwords)
         
-        # Pare text by spaCy
-        doc = nlp(text)
-        
         # Filter sentences
-        sentences = self.sentence_segment(doc, candidate_pos, lower) # list of list of words
+        sentences = self.sentence_segment(abstract, candidate_pos, lower) # list of list of words
         
         # Build vocabulary
         vocab = self.get_vocab(sentences)
