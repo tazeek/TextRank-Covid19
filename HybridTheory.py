@@ -98,7 +98,7 @@ class HybridTheory():
         words_list = []
         node_weight = OrderedDict(sorted(self.node_weight.items(), key=lambda t: t[1], reverse=True))
         for i, (key, value) in enumerate(node_weight.items()):
-            words_list.appened(key)
+            words_list.append(key)
             if i > number:
                 break
 
