@@ -93,8 +93,19 @@ class HybridTheory():
         
         return g_norm
 
+    def get_keywords(self,number=10):
+
+        words_list = []
+        node_weight = OrderedDict(sorted(self.node_weight.items(), key=lambda t: t[1], reverse=True))
+        for i, (key, value) in enumerate(node_weight.items()):
+            words_list.append(key)
+            if i > number:
+                break
+
+        return words_list
+
     
-    def get_keywords(self, number=10):
+    def display_keywords(self, number=10):
         """Print top number keywords"""
         node_weight = OrderedDict(sorted(self.node_weight.items(), key=lambda t: t[1], reverse=True))
         for i, (key, value) in enumerate(node_weight.items()):
