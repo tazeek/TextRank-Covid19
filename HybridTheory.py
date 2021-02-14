@@ -40,7 +40,7 @@ class HybridTheory():
             for token in spacy_sentence:
 
                 # Store words only with cadidate POS tag
-                if token.pos_ in candidate_pos and token.is_stop is False:
+                if token.pos_ in candidate_pos and token.is_stop is False and token.text.lower() not in self._stopwords:
                     if lower is True:
                         selected_words.append(token.text.lower())
                     else:
