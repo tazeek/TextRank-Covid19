@@ -1,2 +1,8 @@
 # Ignore folders
 folder/
+
+__pycache__*
+
+keywords_extracted.csv
+
+*.ipynb
