@@ -17,9 +17,9 @@ class HybridTheory():
         self._stopwords = self._set_stopwords()
 
     
-    def set_stopwords(self):  
+    def _set_stopwords(self):  
         """Set stop words"""
-        for word in STOP_WORDS.union(set(stopwords)):
+        for word in STOP_WORDS:
             print(word)
             print('\n')
             lexeme = nlp.vocab[word]
@@ -121,11 +121,8 @@ class HybridTheory():
         
     def analyze(self, abstract, 
                 candidate_pos=['NOUN', 'PROPN'], 
-                window_size=4, lower=False, stopwords=list()):
+                window_size=4, lower=False):
         """Main function to analyze text"""
-        
-        # Set stop words
-        self.set_stopwords(stopwords)
         
         # Filter sentences
         sentences = self.sentence_segment(abstract, candidate_pos, lower) # list of list of words
