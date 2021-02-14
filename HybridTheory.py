@@ -15,17 +15,16 @@ class HybridTheory():
         self.steps = 10 # iteration steps
         self.node_weight = None # save keywords and its weight
         self._stopwords = self._set_stopwords()
-
+        print(self._stopwords)
+        print(len(self._stopwords))
     
     def _set_stopwords(self):  
         """Set stop words"""
-        for word in STOP_WORDS:
-            print(word)
-            print('\n')
-            lexeme = nlp.vocab[word]
-            lexeme.is_stop = True
-        
-        return []
+        own_stopwords = []
+        with open('own_stopwords.txt') as file:
+            own_stopwords = [word.replace('\n','') for word in file]
+
+        return list({word.lower() for word in STOP_WORDS + own_stopwords})
     
     def sentence_segment(self, abstract, candidate_pos, lower):
         """Store those words only in cadidate_pos"""
