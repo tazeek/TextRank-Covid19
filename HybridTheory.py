@@ -39,7 +39,7 @@ class HybridTheory():
 
             for token in spacy_sentence:
 
-                if not token.text.isalnum():
+                if (not token.text.isalnum()) or (token.text.isnumeric()):
                     continue
 
                 print(token.text)
