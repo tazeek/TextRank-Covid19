@@ -39,12 +39,19 @@ class HybridTheory():
 
             for token in spacy_sentence:
 
+                if not token.text.isalnum():
+                    continue
+
+                print(token.text)
+
                 # Store words only with cadidate POS tag
                 if token.pos_ in candidate_pos and token.is_stop is False and token.text.lower() not in self._stopwords:
                     if lower is True:
                         selected_words.append(token.text.lower())
                     else:
                         selected_words.append(token.text)
+            
+            print('\n')
 
             segmented_sentences.append(selected_words)
 
