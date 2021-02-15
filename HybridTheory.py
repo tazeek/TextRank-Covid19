@@ -14,13 +14,15 @@ class HybridTheory():
         self.min_diff = 1e-5 # convergence threshold
         self.steps = 10 # iteration steps
         self.node_weight = None # save keywords and its weight
-
+        self._stopwords = self._set_stopwords()
     
-    def set_stopwords(self, stopwords):  
+    def _set_stopwords(self):  
         """Set stop words"""
-        for word in STOP_WORDS.union(set(stopwords)):
-            lexeme = nlp.vocab[word]
-            lexeme.is_stop = True
+        own_stopwords = []
+        with open('own_stopwords.txt') as file:
+            own_stopwords = [word.replace('\n','') for word in file]
+
+        return list(set([word.lower() for word in list(STOP_WORDS) + own_stopwords]))
     
     def sentence_segment(self, abstract, candidate_pos, lower):
         """Store those words only in cadidate_pos"""
@@ -37,8 +39,11 @@ class HybridTheory():
 
             for token in spacy_sentence:
 
+                if (not token.text.isalnum()) or (token.text.isnumeric()):
+                    continue
+
                 # Store words only with cadidate POS tag
-                if token.pos_ in candidate_pos and token.is_stop is False:
+                if token.pos_ in candidate_pos and token.is_stop is False and token.text.lower() not in self._stopwords:
                     if lower is True:
                         selected_words.append(token.text.lower())
                     else:
@@ -116,11 +121,8 @@ class HybridTheory():
         
     def analyze(self, abstract, 
                 candidate_pos=['NOUN', 'PROPN'], 
-                window_size=4, lower=False, stopwords=list()):
+                window_size=4, lower=False):
         """Main function to analyze text"""
-        
-        # Set stop words
-        self.set_stopwords(stopwords)
         
         # Filter sentences
         sentences = self.sentence_segment(abstract, candidate_pos, lower) # list of list of words
