@@ -1,8 +1,5 @@
 from HybridTheory import HybridTheory
 
-import spacy
-import nltk
-
 import pandas as pd
 
 covid_scopus_df = pd.read_excel('folder/covid19_scopus.xlsx')
@@ -13,7 +10,6 @@ abstract_ser = abstract_df[abstract_df != '[No abstract available]']
 # There is a NaN abstract in the list (Checked by manual analysis)
 abstract_ser.dropna(inplace=True)
 
-candidate_pos=['NOUN', 'PROPN']
 hybrid_analyzer = HybridTheory()
 
 keywords_abstract_list = []
